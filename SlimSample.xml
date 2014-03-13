@@ -1,0 +1,29 @@
+  <?xml version="1.0" encoding="utf-8" ?> 
+  <StatusTrasmission>
+	  <TrasmissionID>1160333</TrasmissionID> 
+	  <Shipment>
+		  <ControlNumbers>
+			  <BOL>TEST FA 1</BOL> 
+		  </ControlNumbers>
+		  <CurrentStatus>
+			  <Status>
+				  <StatusID>3949660</StatusID> 
+				  <StatusType>Delivery</StatusType> 
+				  <StatusTypeDesc /> 
+				  <StatusDateTime>2004-12-15T17:00:00</StatusDateTime> 
+				  <StatusException /> 
+				  <StatusNotes>TEST ORDER</StatusNotes> 
+			  </Status>
+		  </CurrentStatus>
+	  </Shipment>
+	  <StatusList>
+		  <Status>
+			  <StatusID>3949660</StatusID> 
+			  <StatusType>Delivery</StatusType> 
+			  <StatusTypeDesc>Proof of Delivery</StatusTypeDesc> 
+			  <StatusDateTime>2004-12-15T17:00:00</StatusDateTime> 
+			  <StatusException /> 
+			  <StatusNotes>TEST ORDER</StatusNotes> 
+		  </Status>
+	  </StatusList>
+  </StatusTrasmission>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<StatusTransmission>
+	<TransmissionID>
+			781912826
+	</TransmissionID>
+	<Shipment>
+		<ControlNumbers>
+			<ShipmentID>1234567</ShipmentID>
+			<BOL>H1234567</BOL>
+			<Ref>Reference Number Sample</Ref>
+			<PO>PONumSample</PO>
+			<RMA>RMANumSample</RMA>
+			<SO>SONumSample</SO>
+			<Invoice></Invoice>
+			<CustomNum>
+				<CustomNumType>
+					Special Control Number
+				</CustomNumType>
+				<CustomNumValue>
+					777-345-111112223-ABC
+				</CustomNumValue>
+			</CustomNum>
+		</ControlNumbers>
+		<Parties>
+			<Shipper>
+				<Name>
+					ABC Company
+				</Name>
+				<Address>
+					<Add1>
+						1234 Any Street
+					</Add1>
+					<Add2>
+						Bldg 1234
+					</Add2>
+					<City>
+						AnyTown
+					</City>
+					<State>
+						MN
+					</State>
+					<Region>
+
+					</Region>
+					<ZIP>
+						55120
+					</ZIP>
+					<CountryCode>
+						US
+					</CountryCode>
+					<Phone>
+						123-456-7890
+					</Phone>
+					<Fax>
+						123-456-7891
+					</Fax>
+				</Address>
+			</Shipper>
+			<Consignee>
+				<Name>
+					DEF Company
+				</Name>
+				<Address>
+					<Add1>
+						1234 Other Street
+					</Add1>
+					<Add2>
+						Bldg 4321
+					</Add2>
+					<City>
+						AnyCity
+					</City>
+					<State>
+						CA
+					</State>
+					<Region>
+
+					</Region>
+					<ZIP>
+						90000
+					</ZIP>
+					<CountryCode>
+						US
+					</CountryCode>
+					<Phone>
+						123-456-7990
+					</Phone>
+					<Fax>
+						123-456-7991
+					</Fax>
+				</Address>
+			</Consignee>
+		</Parties>
+		<Dates>
+			<ETD>2006-12-29</ETD>
+			<ETA>2007-01-03</ETA>
+			<Schedule>2007-01-04</Schedule>
+			<Invoice></Invoice>
+		</Dates>
+		<Pieces>
+			<Piece>
+				<PieceID>8887212</PieceID>
+				<PieceCount>2</PieceCount>
+				<PieceLength>50</PieceLength>
+				<PieceWidth>20</PieceWidth>
+				<PieceHeight>70</PieceHeight>
+				<PieceWeightActual>150</PieceWeightActual>
+				<PieceWeightDimensional>280</PieceWeightDimensional>
+				<ProdType>PDP-042</ProdType>
+				<ProdID>TVABCD123</ProdID>
+				<ProdName>Big ABCD TV - 42 Inch Plasma</ProdName>
+			</Piece>
+			<Piece>
+				<PieceID>8887213</PieceID>
+				<PieceCount>1</PieceCount>
+				<PieceLength>10</PieceLength>
+				<PieceWidth>40</PieceWidth>
+				<PieceHeight>5</PieceHeight>
+				<PieceWeightActual>50</PieceWeightActual>
+				<PieceWeightDimensional>8</PieceWeightDimensional>
+				<ProdType>Stand</ProdType>
+				<ProdID>TVABCD123S</ProdID>
+				<ProdName>TV Stand</ProdName>
+			</Piece>
+		</Pieces>
+		<PieceSummary>
+			<PieceCount>3</PieceCount>
+			<WeightActual>350</WeightActual>
+			<WeightDimensional>568</WeightDimensional>
+			<WeightChargeable>568</WeightChargeable>
+		</PieceSummary>
+		<CurrentStatus>
+			<Status>
+				<StatusID>
+					88237788
+				</StatusID>
+				<StatusType>
+					OutForDel
+				</StatusType>
+				<StatusTypeDesc>
+					Out for Delivery
+				</StatusTypeDesc>
+				<StatusDateTime>
+					2007-01-04 17:00:00
+				</StatusDateTime>
+				<StatusException>
+
+				</StatusException>
+				<StatusNotes>
+					Bobby
+				</StatusNotes>
+			</Status>
+		</CurrentStatus>
+	</Shipment>
+	<StatusList>
+		<Status>
+			<StatusID>
+				88237711
+			</StatusID>
+			<StatusType>
+				Pickup
+			</StatusType>
+			<StatusTypeDesc>
+				Proof of Pickup
+			</StatusTypeDesc>
+			<StatusDateTime>
+				2006-12-29 16:23:00
+			</StatusDateTime>
+			<StatusException>
+				
+			</StatusException>
+			<StatusNotes>
+				Jimmy
+			</StatusNotes>
+		</Status>
+		<Status>
+			<StatusID>
+				88237788
+			</StatusID>
+			<StatusType>
+				OutForDel
+			</StatusType>
+			<StatusTypeDesc>
+				Out for Delivery
+			</StatusTypeDesc>
+			<StatusDateTime>
+				2007-01-04 17:00:00
+			</StatusDateTime>
+			<StatusException>
+
+			</StatusException>
+			<StatusNotes>
+				Bobby
+			</StatusNotes>
+		</Status>
+	</StatusList>
+</StatusTransmission>
