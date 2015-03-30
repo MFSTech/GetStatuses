@@ -184,7 +184,33 @@ The `Origin` and `Destination` airport codes represent the nearest service termi
 
 #### Pieces
 
+`Pieces` encloses the list of `Piece` nodes. It is available only in the Full format.
 
+A Piece is a separately identified shipping unit, which definition leaves a gray area. Two separate cartons sitting on the floor near each other are clearly two separate Pieces. Slide those boxes together; surround them with black shrink wrap; attach a "Do Not Break Down" sign; and use metal banding to adhere them to a pallet; and they would usually be considered one Piece.
+
+The configuration of Pieces often has a pricing impact. Smaller, independently mobile Pieces allow more efficient vehicle loading. Bundled cartons, treated as a single piece, are less efficient. Those bundled cartons are considered to have dimensions equal to the cube formed by the maximum height, length, and width of the combination.
+
+When multiple cartons are grouped into a single shipping Piece, it's often useful to identify the number of cartons contained in the Piece, in case the package integrity is compromised during transit. Customers can specify this in the `PieceSTC` (Piece Said to Contain) element of the [Shipment transmission](https://github.com/MFSTech/SendUsShipments "SendUsShipments Repository"). That quantity is not currently represented in the below Piece information, but it likely will be in the future.
+
+We do not serialize to down to the Piece level. We allow customers to group like Pieces. All Pieces of the same product type with the same dimensions and weight can be grouped into a single Piece Line. Each Piece Line is separately stored in our system. A Piece Line is represented here as a `Piece` element. 
+
+As a practical matter, it is unusual to have multiple, identically configured carton bundles, so generally if multiple cartons are shipping as a single Piece, it will be represented with its own Piece Line.
+
+`Piece` sub-nodes:
+
+* `PieceID` - This is our unique numeric identifier for the Piece Line record.  
+* `PieceCount` - This is the number of like Pieces represented by this Piece Line. 
+* `PieceLength` - This is the length-- in inches-- of Pieces in this Piece Line.
+* `PieceWidth` - This is the width-- in inches-- of Pieces in this Piece Line.
+* `PieceHeight` - This is the height-- in inches-- of Pieces in this Piece Line.
+* `PieceWeightActual` - This is the actual (as opposed to dimensional) weight-- in pounds-- of *each* Piece in this Piece Line. The `PieceCount` should be multiplied by the `PieceWeightActual` to determine the total actual weight of the Piece Line. 
+* `PieceWeightDimensional` - This is the dimensional weight of the shipment. Dimensional weight is a conceptual value designed to represent impact of the size of a Piece in a way comparable to its weight. The `PieceCount` should be multiplied by the `PieceWeightDimensional` to determine the total dimensional weight of the Piece Line. The dimensional weight is calculated by taking the product of the length, width, and height (in inches) and dividing it by the dimensional factor. The dimensional factor can vary by customer agreement and/or mode of transport. Typically, 250 is used as a dimensional factor for ground shipments. As an example, a 20x30x40 carton would have a dimensional weight of 96 pounds. Typically, a customer is charged by the greater of the actual or dimensional weight for a shipment.
+* `PieceDeclaredValue` - This is the declared value of *each* Piece in this Piece Line. The `PieceCount` should be multiplied by the `PieceDeclaredValue` to determine the total declared value for the Piece Line. The declared value is generally the maximum amount for which we would be liable in the case of loss or damage. Often, customers are charged based on the amount declared.
+* `ProdType` - This is a textual code for the type of product contained in the Piece. It will be one of a list of product types configured for a customer. Generally, customers shipping TVs are required to specify the product type of the TV, which will be a code representing the TV technology and size. An example would be "LED-052" for a 52" LCD display with an LED back-light. 
+* `ProdID` - This is an optional field sometimes specified by customers. It often corresponds with the SKU of the product. 
+* `ProdName` - This is an optional long form name of a product. An example might be "52-inch LCD Display with LED Back-Light".
+
+Most of these elements correspond with similarly named elements in the [Shipment transmission](https://github.com/MFSTech/SendUsShipments "SendUsShipments Repository").
 
 ### Examples
 
