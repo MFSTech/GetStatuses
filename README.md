@@ -57,7 +57,7 @@ We run a process every few minutes which generates the transmissions. The status
 
 Alternatively, our system can generate files containing the XML content. Another process which runs every few minutes can sweep these files to an FTP site we host, or it can send the files via FTP to a site hosted elsewhere. We believe it's best practice for the receiver to host the FTP site. Typically, it is more convenient and uses fewer system resources to poll a local FTP site than a remote FTP site. Also, receiver FTP host software can often trigger processing events.
 
-You can request that we establish Push status transmissions to you by emailing Support@MFSCorporate.com.
+You can request that we establish Push status transmissions to you by emailing EDI@MFSCorporate.com.
 
 Content
 -------
