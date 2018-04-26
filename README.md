@@ -87,12 +87,14 @@ Within the `Shipment` element are sections containing general shipment informati
 * `PieceSummary`
 * `CurrentStatus`
 * `StatusList`
-* `CommEvents`
+* `ComEvents`
+* `ExtraServices`
 * `Activities`
 * `Exceptions`
 * `Charges`
 * `ChargesSummary`
 * `TextInfo`
+* `Images`
 
 #### ControlNumbers
 
@@ -109,7 +111,7 @@ This section contains the main tracking numbers for the shipment, along with som
 
 ##### CustomCtrlNums
 
-Custom Control numbers are special control numbers defined for particular processes or customers. (Technically, most standard control numbers and custom control numbers are the same from the system's perspective. We simply expose the standard numbers differently.) The type of control number and the value are supplied as follows.
+Only available in the Full format, Custom Control numbers are special control numbers defined for particular processes or customers. (Technically, most standard control numbers and custom control numbers are the same from the system's perspective. We simply expose the standard numbers differently.) The type of control number and the value are supplied as follows.
 
 * `CtrlNumType`
 * `CtrlNumValue`
@@ -178,6 +180,8 @@ The parties are only available in the Full format.
 * `Invoice` - This is the date on which the shipment was invoiced. This is only available in the Full format.
 * `Closed` - This was the date on which the shipment was closed. When the `CloseType` is "POD", it will correspond with the `StatusDateTime` of the  "Delivery" status.
 
+The `Dates` section is available in the Slim and Full formats.
+
 #### Airports
 
 The `Origin` and `Destination` airport codes represent the nearest service terminals to the `Shipper` and `Consignee`, based on some proprietary routing logic. They were historically used for customer rating, but are now generally just informational. They are also available only in the Full format.
@@ -198,8 +202,8 @@ As a practical matter, it is unusual to have multiple, identically configured ca
 
 `Piece` sub-nodes:
 
-* `PieceID` - This is our unique numeric identifier for the Piece Line record.  
-* `PieceCount` - This is the number of like Pieces represented by this Piece Line. 
+* `PieceID` - This is our unique numeric identifier for the Piece Line record.
+* `PieceCount` - This is the number of like Pieces represented by this Piece Line.
 * `PieceLength` - This is the length-- in inches-- of Pieces in this Piece Line.
 * `PieceWidth` - This is the width-- in inches-- of Pieces in this Piece Line.
 * `PieceHeight` - This is the height-- in inches-- of Pieces in this Piece Line.
@@ -211,6 +215,135 @@ As a practical matter, it is unusual to have multiple, identically configured ca
 * `ProdName` - This is an optional long form name of a product. An example might be "52-inch LCD Display with LED Back-Light".
 
 Most of these elements correspond with similarly named elements in the [Shipment transmission](https://github.com/MFSTech/SendUsShipments "SendUsShipments Repository").
+
+#### PieceSummary
+
+`PieceSummary` contains aggregate information about the pieces on the shipment. It is only available in the Full format.
+
+* `PieceCount` - Total number of pieces-- the sum of the values in the `PieceCount` elements.
+* `WeightActual` - Total actual weight of the shipment-- the sum of the product of the values in the `PieceWeightActual` and `PieceCount` elements.
+* `WeightDimensional` - Total dimensional weight of the shipment-- the sum of the product of the values in the `PieceWeightDimensional` and `PieceCount` elements.
+* `WeightChargeable` - This is the greater of `WeightActual` and `WeightDimensional`.
+
+#### CurrentStatus
+
+This contains a copy of the `Status` element in `StatusList` which is the last status (by datetime) of the latest type. This is *not* necessarily the status or other event which triggered the transmission. It is available in both the Slim and Full versions.
+
+#### StatusList
+
+Available in both the Slim and Full versions, this contains a full list of all statuses logged on the shipment. A `Status` is typically a real world freight movement event, such as picking up the freight from the shipper or delivering it to the consignee.
+
+A full list of status types are available here:
+
+[http://edi.mfsclarity.com/EDI/XMLIn.aspx?Process=GetStatusTypes](http://edi.mfsclarity.com/EDI/XMLIn.aspx?Process=GetStatusTypes).
+
+* `StatusID` - This is our unique numeric identifier for the status record.
+* `StatusType` - This is a short textual identifier for the type of status event, such as "Pickup" or "Delivery". For non-delivery closure exceptions, this will contain "Closure".
+* `StatusTypeDesc` - This is the name of the status event, such as "Proof of Pickup" or "Proof of Delivery". For non-delievry closure exceptions, this will contain the closure type name, such as "Cancelled Before Freight Activity".
+* `StatusDateTime` - This is the *local* date and time at which the event occurred.
+* `StatusLocation` - The system uses a variety of methods to attempt to derive the city and state around where the status event occurred.
+* `StatusNotes` - Available only in the Full version, this will contain any notation entered on the status record or closure information. Typically, this will be a portion of the name of the individual receiving the freight.
+
+#### ComEvents
+
+Available in both the Slim and Full versions, this containsa a full list of all communication events logged on the shipment, such as a call by one of our staff or an automated call, text, or email.
+
+A `ComEvent` contains the following:
+
+* `ComDate` - This is the date and time at which the communication event occurred, in the Central US time zone.
+* `ComType` - This is the type of communication event, such as a call, text, or email, often indicating the result of the event (such as the shipment being scheduled or a message being left).
+* `ComNotes` - This includes any notes related to the event, including the email address contacted. This element is only available in the Full version.
+
+#### ExtraServices
+
+Available in Slim and Full versions, each `ExtraService` requested for the shipment is listed here.
+
+* `ExtraServiceTypeID` - A unique textual identifier for the type of extra service.
+* `ExtraServiceTypeName` - The name of the extra service type.
+* `ExtraServiceValue` - A quantity relevant to the extra service. For most extra services, this value is 1.
+
+#### Activities
+
+Only available in the Full version, this contains a list of all system activities logged on the shipment. Typical activities include "Customer Processed", when a customer processed the shipment information via EDI or our web portal Clarity, and "Customer Invoiced", when our accounting system created an customer invoice for the shipment.
+
+Each `Activity` node contains:
+
+* `ActivityTypeNumber` - A number identifying the type of activity.
+* `ActivityTypeID` - A short textual identifier for the type of activity.
+* `ActivityTypeName` - The name of the type of activity.
+* `ActivityDate` - The date and time at which the activity was logged in our system, in the Central US time zone.
+* `ActivityNote` - Any textual information logged as part of the activity event.
+
+#### Exceptions
+
+Only availalbe in the Full version, this contains a list of all publicly available exceptions logged on the shipment, including when a shipment is rescheduled.
+
+These are also known as "Service Logs" and a complete list is available here:
+
+[http://edi.mfsclarity.com/edi/xmlin.aspx?Process=GetServiceLogTypes](http://edi.mfsclarity.com/edi/xmlin.aspx?Process=GetServiceLogTypes)
+
+Each `Exception` contains:
+
+* `ExceptionTypeID` - A textual identifier for the type of exception.
+* `ExceptionTypeName` - The name of the exception.
+* `ExceptionDate` - The date and time at which the exception was logged in our system, in the Central US time zone. (Occasionally, this value is adjusted to match another event.)
+* `ExceptionNote` - Any textual information logged as part of the exception.
+
+#### Charges
+
+Only available in the Full version, this contains a list of the charges logged on the shipment. The charges are only estimates prior to invoicing.
+
+Each `Charge` contains:
+
+* `ChargeID` - A unique numeric identifier for the charge.
+* `ChargeTypeID` - A unique textual identifier for the type of charge.
+* `ChargeTypeName` - The name of the type of charge.
+* `ChargeCategory` - The category of the charge (such as "Freight", "Fuel", "Delivery", or "Install").
+* `ChargeTypeFactorID` - The textual identifier for the charge method (aka factor type).
+* `ChargeTypeFactorName` - The name of the charge method (aka factor type). An example is "Freight Charge", which means that the Charge Value is equal to the Charge Amount of the charge of type "Freight Charge". Another option is "Flat", where the Charge Value is an integer, usually 1.
+* `ChargeRate` - The rate by which the Charge Value is multiplied to calculate the final Charge Amount.
+* `ChargeValue` - The value determined by the charge method and other shipment characteristics (such as the chargeable weight).
+* `ChargeMin` - The minimum amount for this type of charge for this customer.
+* `ChargeAmount` - The final charge amount-- a product of the Charge Rate and Charge Value (sometimes scaled by a factor of 0.01, especially for the Freight Charge).
+
+#### ChargesSummary
+
+Only available in the Full version, this contains a summary of the charges logged on the shipment.
+
+* `Freight` - The total of all charges of category "Freight".
+* `Fuel` - The total of all charges of category "Fuel".
+* `Insurance` - The total of all charges of category "Insurance".
+* `Transport` - The total of all charges of category "Transport".
+* `Delivery` - The total of all charges of category "Delivery".
+* `Service` - The total of all charges of category "Service".
+* `Other` - The total of all charges of all other categories not listed above.
+* `TotalCharges` - The total of all charges (the sum of all the ChargeAmount element values, which should equal the sum of all the sibling elements to TotalCharges under ChargesSummary.)
+
+#### TextInfo
+
+Only availalbe in the Full version, this contains collection of textual information about the shipment.
+
+* `PackageDescription` - The Package Description provided by the customer, as modified by our staff and processes.
+* `SpecialInstructions` - The Special Instructions provided by the customer, as modified by our staff and processes.
+* `PubNotes` - A collection of public notes.
+
+##### PubNote
+
+* `PubNoteID` - A unique numeric identifier for the public note.
+* `PubNoteInsertDate` - The date and time at which the public note was created.
+* `PubNoteText` - The textual contents of the public note.
+
+#### Images
+
+Only available in the Full version, this contains a list of all images attached to the shipment.
+
+Each `Image` contains:
+
+* `ImageID` - A unique numeric identifier for the image.
+* `ImageTypeID` - A unique textual identifier for the type of image.
+* `ImageType` - The name of the image type.
+* `ImagePath` - The URL to access the image.
+* `ImageInserted` - The date and time at which the image was attached, in the Central US time zone.
 
 ### Examples
 
